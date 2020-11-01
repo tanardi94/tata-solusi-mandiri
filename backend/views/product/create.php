@@ -22,7 +22,8 @@ $categories = array_combine(ArrayHelper::getColumn($arrays, 'id'), ArrayHelper::
 
     <?= $this->render('_form', [
         'model' => $model,
-        'categories' => $categories
+        'categories' => $categories,
+        'images' => $images
     ]) ?>
 
 </div>

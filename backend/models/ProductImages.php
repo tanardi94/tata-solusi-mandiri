@@ -17,13 +17,15 @@ use Yii;
  * @property string $updated_at
  * @property int|null $updated_by
  *
- * @property Product $product
+* @property Product $product
  */
 class ProductImages extends \frontend\models\CustomActiveRecord
 {
     /**
      * {@inheritdoc}
      */
+
+    public $imageFile;
     public static function tableName()
     {
         return 'product_images';
@@ -35,7 +37,9 @@ class ProductImages extends \frontend\models\CustomActiveRecord
     public function rules()
     {
         return [
-            [['product_id', 'image', 'seq', 'created_at', 'updated_at'], 'required'],
+            [['product_id', 'image', 'seq'], 'required'],
+            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg', 'on' => 'create'],
+            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg', 'on' => 'update'],
             [['product_id', 'seq', 'status', 'created_by', 'updated_by'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['image'], 'string', 'max' => 255],
@@ -68,6 +72,17 @@ class ProductImages extends \frontend\models\CustomActiveRecord
      */
     public function getProduct()
     {
-        return $this->hasOne(Product::className(), ['id' => 'product_id']);
+        return $this->hasOne(Product::class, ['id' => 'product_id']);
+    }
+
+    public function deleteImage()
+    {
+        $image = Yii::getAlias(Yii::$app->params['storage'] . '/uploads/product/') . $this->photo;
+        if(unlink($image)) {
+            $this->photo = null;
+            $this->save();
+            return true;
+        }
+        return false;
     }
 }

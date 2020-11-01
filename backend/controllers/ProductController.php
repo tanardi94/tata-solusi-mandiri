@@ -2,17 +2,18 @@
 
 namespace backend\controllers;
 
+use backend\models\Model;
 use Yii;
 use backend\models\Product;
 use backend\models\ProductCategory;
 use backend\models\ProductImages;
 use backend\models\ProductSearch;
-use yii\base\Model;
 use yii\web\Response;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+use yii\web\UploadedFile;
 use yii\widgets\ActiveForm;
 
 /**
@@ -79,26 +80,30 @@ class ProductController extends Controller
         $model = new Product;
         $images = [new ProductImages];
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->unique_id = uniqid(date('siHyz'), true);
             $images = Model::createMultiple(ProductImages::class);
-            Model::loadMultiple($images, Yii::$app->request->post());
-            if (Yii::$app->request->isAjax) {
-                Yii::$app->response->format = Response::FORMAT_JSON;
-                return ArrayHelper::merge(
-                    ActiveForm::validateMultiple($images),
-                    ActiveForm::validate($model)
-                );
-            }
-
+            
             $valid = $model->validate();
-            $valid = Model::validateMultiple($images) && $valid;
+            Model::loadMultiple($images, Yii::$app->request->post());
 
             if ($valid) {
                 $transaction = \Yii::$app->db->beginTransaction();
                 try {
                     if ($flag = $model->save(false)) {
                         foreach ($images as $image) {
+                            // proses upload image di sini
+                            $image->imageFile = UploadedFile::getInstance($image, 'imageFile');
                             $image->product_id = $model->id;
+                            $seqs = ProductImages::find()->where(['status' => 1, 'product_id' => $model->id])->max('seq');
+                            $image->seq = ($seqs != null ? ($seqs + 1) : 1);
+                            $fileName =  $model->name . '-' . rand(100,1000) . '-' . $model->unique_id;
+                            if(!empty($model->imageFile)) {
+                                $model->photo = $fileName . '.' . $model->imageFile->extension;
+                                if($model->save(false)) {
+                                    $model->imageFile->saveAs(Yii::$app->params['storage'] . '/uploads/product/' . $fileName . '.' . $model->imageFile->extension);
+                                }
+                            }
                             if (! ($flag = $image->save(false))) {
                                 $transaction->rollBack();
                                 break;
@@ -107,7 +112,7 @@ class ProductController extends Controller
                     }
                     if ($flag) {
                         $transaction->commit();
-                        return $this->redirect(['view', 'id' => $model->id]);
+                        return $this->redirect(['update', 'id' => $model->id]);
                     }
                 } catch (\Exception $e) {
                     $transaction->rollBack();
@@ -117,6 +122,7 @@ class ProductController extends Controller
         }
 
         return $this->render('create', [
+            'images' => (empty($images)) ? [new ProductImages()] : $images,
             'model' => $model,
         ]);
     }

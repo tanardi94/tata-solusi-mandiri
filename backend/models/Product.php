@@ -37,8 +37,8 @@ class Product extends \frontend\models\CustomActiveRecord
     public function rules()
     {
         return [
-            [['name', 'description', 'created_at', 'updated_at'], 'required'],
-            [['overview'], 'string'],
+            [['name', 'description'], 'required'],
+            [['overview', 'unique_id'], 'string'],
             [['category', 'status', 'created_by', 'updated_by'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['name', 'description'], 'string', 'max' => 255],
