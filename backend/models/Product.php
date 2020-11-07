@@ -83,4 +83,5 @@ class Product extends \frontend\models\CustomActiveRecord
     {
         return $this->hasMany(ProductImages::className(), ['product_id' => 'id']);
     }
+    
 }

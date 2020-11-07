@@ -85,8 +85,8 @@ use yii\helpers\Url;
                                 else {
                                     echo '<div class="form-group">
                                     <h5><b>Image</b></h5>';
-                                    echo Html::img(Yii::getAlias('@web/uploads/product/') . $image->photo, [
-                                        'alt'=>Yii::t('app', 'Product for ') . $image->name,
+                                    echo Html::img(Yii::getAlias('@web/uploads/product/') . $image->image, [
+                                        'alt'=>Yii::t('app', 'Product for ') . $model->name,
                                         'title'=>Yii::t('app', 'Click remove button below to remove this image'),
                                         'class'=>'file-preview-image',
                                         'width' => 200,

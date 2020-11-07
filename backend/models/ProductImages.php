@@ -77,9 +77,9 @@ class ProductImages extends \frontend\models\CustomActiveRecord
 
     public function deleteImage()
     {
-        $image = Yii::getAlias(Yii::$app->params['storage'] . '/uploads/product/') . $this->photo;
+        $image = Yii::getAlias(Yii::$app->params['storage'] . '/uploads/product/') . $this->image;
         if(unlink($image)) {
-            $this->photo = null;
+            $this->image = null;
             $this->save();
             return true;
         }

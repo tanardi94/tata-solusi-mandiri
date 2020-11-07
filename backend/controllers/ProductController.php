@@ -112,7 +112,7 @@ class ProductController extends Controller
                     }
                     if ($flag) {
                         $transaction->commit();
-                        return $this->redirect(['update', 'id' => $model->id]);
+                        return $this->redirect(['index']);
                     }
                 } catch (\Exception $e) {
                     $transaction->rollBack();
@@ -137,12 +137,57 @@ class ProductController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $images = $model->productImages;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $oldIDs = ArrayHelper::map($model, 'id', 'id');
+            $images = Model::createMultiple(ProductImages::classname(), $images);
+            $deletedIDs = array_diff($oldIDs, array_filter(ArrayHelper::map($images, 'id', 'id')));
+
+            $valid = $model->validate();
+            Model::loadMultiple($images, Yii::$app->request->post());
+
+            if ($valid) {
+                $transaction = \Yii::$app->db->beginTransaction();
+                try {
+                    if ($flag = $model->save(false)) {
+                        if (! empty($deletedIDs)) {
+                            ProductImages::deleteAll(['id' => $deletedIDs]);
+                        }
+                        foreach ($images as $image) {
+                            // proses upload image di sini
+                            $image->imageFile = UploadedFile::getInstance($image, 'imageFile');
+                            $image->product_id = $model->id;
+                            $seqs = ProductImages::find()->where(['status' => 1, 'product_id' => $model->id])->max('seq');
+                            $image->seq = ($seqs != null ? ($seqs + 1) : 1);
+                            $fileName =  $model->name . '-' . rand(100,1000) . '-' . $model->unique_id;
+                            if(!empty($model->imageFile)) {
+                                $model->photo = $fileName . '.' . $model->imageFile->extension;
+                                if($model->save(false)) {
+                                    $model->imageFile->saveAs(Yii::$app->params['storage'] . '/uploads/product/' . $fileName . '.' . $model->imageFile->extension);
+                                }
+                            }
+                            if (! ($flag = $image->save(false))) {
+                                $transaction->rollBack();
+                                break;
+                            }
+                        }
+                    }
+                    if ($flag) {
+                        $transaction->commit();
+                        return $this->redirect(['view', 'id' => $model->id]);
+                    }
+                } catch (\Exception $e) {
+                    $transaction->rollBack();
+                }
+            }
+
+
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
+            'images' => (empty($images)) ? [new ProductImages()] : $images,
             'model' => $model,
         ]);
     }
