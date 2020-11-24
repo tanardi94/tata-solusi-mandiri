@@ -39,10 +39,11 @@ use yii\helpers\Url;
         <div class="panel-heading"><h4><i class="glyphicon glyphicon-picture"></i> Upload Images</h4></div>
         <div class="panel-body">
              <?php DynamicFormWidget::begin([
+                'id' => 'checking',
                 'widgetContainer' => 'dynamicform_wrapper', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
                 'widgetBody' => '.container-items', // required: css class selector
                 'widgetItem' => '.item', // required: css class
-                'limit' => 10, // the maximum times, an element can be cloned (default 999)
+                'limit' => 5, // the maximum times, an element can be cloned (default 999)
                 'min' => 1, // 0 or 1 (default 1)
                 'insertButton' => '.add-item', // css class
                 'deleteButton' => '.remove-item', // css class
@@ -54,7 +55,7 @@ use yii\helpers\Url;
                 ],
             ]); ?>
 
-            <div class="container-items"><!-- widgetContainer -->
+            <div class="container-items col-sm-6"><!-- widgetContainer -->
             <?php foreach ($images as $i => $image): ?>
                 <div class="item panel panel-default"><!-- widgetBody -->
                     <div class="panel-heading">
@@ -78,7 +79,7 @@ use yii\helpers\Url;
                                 <?php
                                 
                                 if (empty($image->image)) {
-                                    echo $form->field($image, "[{$i}]imageFile")->widget(FileInput::class, [
+                                    echo $form->field($image, "[{$i}]imageFiles[]")->widget(FileInput::class, [
                                         'options' => ['accept' => 'image/*'],
                                     ]);
                                 }
@@ -102,9 +103,6 @@ use yii\helpers\Url;
                                     );
                                     echo '</div>';
                                 }?>
-                            </div>
-                            <div class="col-sm-6">
-                                <?= $form->field($image, "[{$i}]seq")->textInput(['maxlength' => true, 'type' => 'number']) ?>
                             </div>
                         </div><!-- .row -->
                         <!-- .row -->
@@ -145,7 +143,14 @@ use yii\helpers\Url;
     
     $(".dynamicform_wrapper").on("limitReached", function(e, item) {
         alert("Limit reached");
-    });');
+    });
+    
+    $("#checking").click(function() {
+        $(".file-preview-frame").removeAttr("id");
+      });
+    ');
+
+    
     ?>
 
 </div>

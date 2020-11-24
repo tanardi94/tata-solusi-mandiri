@@ -33,6 +33,7 @@
                     ['label' => 'Promos', 'icon' => 'tag', 'url' => ['/promos']],
                     ['label' => 'Product', 'icon' => 'shopping-cart', 'url' => ['/product']],
                     ['label' => 'Category', 'icon' => 'file-code-o', 'url' => ['/product-category']],
+                    ['label' => 'Product Images', 'icon' => 'image', 'url' => ['/images']],
                     
                     // ['label' => 'Gii', 'icon' => 'file-code-o', 'url' => ['/gii']],
                     // ['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],

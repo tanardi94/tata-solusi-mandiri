@@ -37,7 +37,6 @@ class ProductImages extends \frontend\models\CustomActiveRecord
     public function rules()
     {
         return [
-            [['product_id', 'image', 'seq'], 'required'],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg', 'on' => 'create'],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg', 'on' => 'update'],
             [['product_id', 'seq', 'status', 'created_by', 'updated_by'], 'integer'],
@@ -56,7 +55,7 @@ class ProductImages extends \frontend\models\CustomActiveRecord
             'id' => 'ID',
             'product_id' => 'Product ID',
             'image' => 'Image',
-            'seq' => 'Seq',
+            'seq' => 'Gambar ke',
             'status' => 'Status',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
@@ -73,6 +72,11 @@ class ProductImages extends \frontend\models\CustomActiveRecord
     public function getProduct()
     {
         return $this->hasOne(Product::class, ['id' => 'product_id']);
+    }
+
+    public function getImageUrl()
+    {
+        return Yii::getAlias(Yii::$app->params['storage'] . '/uploads/product/') . $this->image;
     }
 
     public function deleteImage()
