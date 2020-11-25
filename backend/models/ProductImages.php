@@ -76,7 +76,7 @@ class ProductImages extends \frontend\models\CustomActiveRecord
 
     public function getImageUrl()
     {
-        return Yii::getAlias(Yii::$app->params['storage'] . '/uploads/product/') . $this->image;
+        return Yii::getAlias('@web/uploads/product/') . $this->image;
     }
 
     public function deleteImage()

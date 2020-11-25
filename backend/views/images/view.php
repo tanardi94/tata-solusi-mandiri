@@ -1,15 +1,22 @@
 <?php
 
+use backend\models\Product;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\ProductImages */
 
-$this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Product Images', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
+$product = Product::find()->all();
+$arrays = ArrayHelper::toArray($product, [
+    'backend\models\Product', 'id'
+]);
+$products = array_combine(ArrayHelper::getColumn($arrays, 'id'), ArrayHelper::getColumn($arrays, 'name'));
+$this->title = $products[$model->product_id];
 ?>
 <div class="product-images-view">
 
@@ -30,8 +37,24 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'product_id',
-            'image',
+            [
+                'label' => 'Product',
+                'attribute' => 'product_id',
+                'value' => function($data) {
+                    $product = Product::find()->all();
+                    $arrays = ArrayHelper::toArray($product, [
+                        'backend\models\Product', 'id'
+                    ]);
+                    $products = array_combine(ArrayHelper::getColumn($arrays, 'id'), ArrayHelper::getColumn($arrays, 'name'));
+                    return $products[$data->product_id];
+                },
+                'filter' => $products
+            ],
+            [
+                'attribute' => 'image',
+                'value' => $model->imageUrl,
+                'format' => ['image', ['width' => '70px', 'height' => '70px']],
+            ],
             'seq',
         ],
     ]) ?>

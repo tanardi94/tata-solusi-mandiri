@@ -48,14 +48,6 @@ $products = array_combine(ArrayHelper::getColumn($arrays, 'id'), ArrayHelper::ge
                 },
                 'filter' => $products
             ],
-            [
-                'attribute' => 'image',
-                'value' => function($data) {
-                    return Html::img($data->imageUrl,
-                    ['width' => '70px']);
-                },
-                'format' => 'image',
-            ],
             'seq',
             'status',
             //'created_at',

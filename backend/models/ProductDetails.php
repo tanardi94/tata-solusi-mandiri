@@ -40,7 +40,7 @@ class ProductDetails extends \frontend\models\CustomActiveRecord
     public function rules()
     {
         return [
-            [['product_id', 'created_at', 'updated_at'], 'required'],
+            
             [['product_id', 'parent_id', 'level', 'status', 'created_by', 'updated_by'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['specification', 'key', 'value'], 'string', 'max' => 255],

@@ -45,7 +45,7 @@ $products = array_combine(ArrayHelper::getColumn($arrays, 'id'), ArrayHelper::ge
         <div class="form-group">';
         echo Html::a(
             Yii::t('app', 'Change Image'), 
-            Url::to(['/product/delimage', 'id'=>$model->id]),
+            Url::to(['/images/delimage', 'id'=>$model->id]),
             ['class' => 'btn btn-primary']
         );
         echo '</div>';

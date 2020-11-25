@@ -73,12 +73,12 @@ class ImagesController extends Controller
             $product = Product::findOne(['id' => $model->product_id]);
             $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
             $fileName =  $product->name . '-' . rand(100,1000) . '-' . $product->unique_id;
-            $seqs = ProductImages::find()->where(['status' => 1, 'product_id' => $model->id])->max('seq');
-            $model->seq = ($seqs != null ? $seqs + 1 : 1);
+            $seqs = ProductImages::find()->where(['status' => 1, 'product_id' => $model->product_id])->max('seq');
+            $model->seq = ($seqs != null ? ($seqs + 1) : 1);
             if(!empty($model->imageFile)) {
                 $model->image = $fileName . '.' . $model->imageFile->extension;
                 if($model->save(false)) {
-                    $model->imageFile->saveAs(Yii::$app->params['storage'] . '/uploads/product/' . $fileName);
+                    $model->imageFile->saveAs(Yii::$app->params['storage'] . '/uploads/product/' . $model->image);
                 }
             }
             $model->save(false);
@@ -119,12 +119,12 @@ class ImagesController extends Controller
             $product = Product::findOne(['id' => $model->product_id]);
             $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
             $fileName =  $product->name . '-' . rand(100,1000) . '-' . $product->unique_id;
-            $seqs = ProductImages::find()->where(['status' => 1, 'product_id' => $model->id])->max('seq');
-            $model->seq = ($seqs != null ? $seqs + 1 : 1);
+            // $seqs = ProductImages::find()->where(['status' => 1, 'product_id' => $model->id])->max('seq');
+            // $model->seq = ($seqs != null ? $seqs + 1 : 1);
             if(!empty($model->imageFile)) {
                 $model->image = $fileName . '.' . $model->imageFile->extension;
                 if($model->save(false)) {
-                    $model->imageFile->saveAs(Yii::$app->params['storage'] . '/uploads/product/' . $fileName);
+                    $model->imageFile->saveAs(Yii::$app->params['storage'] . '/uploads/product/' . $model->image);
                 }
             }
             $model->save(false);
