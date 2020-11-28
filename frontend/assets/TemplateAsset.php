@@ -9,50 +9,47 @@ use yii\web\AssetBundle;
  */
 class TemplateAsset extends AssetBundle
 {
-    public $sourcePath = '@web/themes/unapp-master/';
+    public $sourcePath = '@web/themes/watch/';
     public $basePath = '@webroot';
     public $baseUrl = '@web';
-    public $images = '@web/themes/unapp-master/images/';
+    public $images = '@web/themes/watch/img/';
     public $css = [
         "https://fonts.googleapis.com/css?family=Muli:300,400,700,900",
-        "themes/unapp-master/fonts/icomoon/style.css",
+        "themes/watch/css/linearicons.css",
 
-        "themes/unapp-master/css/bootstrap.min.css",
-        "themes/unapp-master/css/jquery-ui.css",
-        "themes/unapp-master/css/owl.carousel.min.css",
-        "themes/unapp-master/css/owl.theme.default.min.css",
-        "themes/unapp-master/css/owl.theme.default.min.css",
+        "themes/watch/css/bootstrap.css",
+        "themes/watch/css/font-awesome.min.css",
+        "themes/watch/css/magnific-popup.css",
+        "themes/watch/nice-select.css",
+        "themes/watch/css/animate.min.css",
 
-        "themes/unapp-master/css/jquery.fancybox.min.css",
+        "themes/watch/css/owl.carousel.css",
 
-        "themes/unapp-master/css/bootstrap-datepicker.css",
+        "themes/watch/css/main.css",
 
-        "themes/unapp-master/fonts/flaticon/font/flaticon.css",
+        "themes/watch/fonts/flaticon/font/flaticon.css",
 
-        "themes/unapp-master/css/aos.css",
+        "themes/watch/css/aos.css",
 
-        "themes/unapp-master/css/style.css",
+        "themes/watch/css/style.css",
     ];
     public $js = [
-        "themes/unapp-master/js/jquery-3.3.1.min.js",
-        "themes/unapp-master/js/jquery-migrate-3.0.1.min.js",
-        "themes/unapp-master/js/jquery-ui.js",
-        "themes/unapp-master/js/popper.min.js",
-        "themes/unapp-master/js/bootstrap.min.js",
-        "themes/unapp-master/js/owl.carousel.min.js",
-        "themes/unapp-master/js/jquery.stellar.min.js",
-        "themes/unapp-master/js/jquery.countdown.min.js",
-        "themes/unapp-master/js/bootstrap-datepicker.min.js",
-        "themes/unapp-master/js/jquery.easing.1.3.js",
-        "themes/unapp-master/js/aos.js",
-        "themes/unapp-master/js/jquery.fancybox.min.js",
-        "themes/unapp-master/js/jquery.sticky.js",
-        "themes/unapp-master/js/main.js",
-    ];
-
-
-    public $depends = [
-        'yii\web\YiiAsset',
-        // 'yii\bootstrap\BootstrapAsset',
+        "themes/watch/js/vendor/jquery-2.2.4.min.js",
+        "themes/watch/js/hoverIntent.js",
+        "themes/watch/js/superfish.min.js",
+        "themes/watch/js/easing.min.js",
+        "themes/watch/js/bootstrap.min.js",
+        "themes/watch/js/jquery.ajaxchimp.min.js",
+        "themes/watch/js/jquery.magnific-popup.min.js",
+        "themes/watch/js/owl.carousel.min.js",
+        "themes/watch/js/vendor/bootstrap.min.js",
+        "themes/watch/js/jquery.sticky.js",
+        "themes/watch/js/jquery.nice-select.min.js",
+        "themes/watch/js/parallax.min.js",
+        "themes/watch/js/jquery.sticky.js",
+        "themes/watch/js/main.js",
+        "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js",
+        "https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA",
+        "themes/watch/js/mail-script.js"
     ];
 }
