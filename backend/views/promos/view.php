@@ -31,15 +31,30 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'title',
-            'description:ntext',
-            'start_date',
-            'end_date',
-            'use_alert',
-            'status',
-            'created_at',
-            'created_by',
-            'updated_at',
-            'updated_by',
+            [
+                'attribute' => 'description',
+                'value' => $model->description,
+                'format' => 'raw'
+            ],
+            [
+                'attribute' => 'start_date',
+                'value' => function ($data) {
+                    return date("d F Y", strtotime($data->start_date));
+                }
+            ],
+            [
+                'attribute' => 'end_date',
+                'value' => function ($data) {
+                    return date("d F Y", strtotime($data->end_date));
+                }
+            ],
+            [
+                'attribute' => 'use_alert',
+                'value' => function($data) {
+                    $x = ['No', 'Yes'];
+                    return $x[$data->use_alert];
+                }
+            ],
         ],
     ]) ?>
 

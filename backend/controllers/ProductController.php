@@ -65,8 +65,14 @@ class ProductController extends Controller
      */
     public function actionView($id)
     {
+        $category = ProductCategory::find()->select(['id', 'name'])->where(['status' => 1])->all();
+        $arrays = ArrayHelper::toArray($category, [
+            'backend\models\ProductCategory', 'id'
+        ]);
+        $categories = array_combine(ArrayHelper::getColumn($arrays, 'id'), ArrayHelper::getColumn($arrays, 'name'));
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'categories' => $categories
         ]);
     }
 

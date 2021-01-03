@@ -1,5 +1,7 @@
 <?php
 
+use backend\models\ProductCategory;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -31,14 +33,28 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'name',
-            'description',
-            'overview:ntext',
-            'category',
-            'status',
-            'created_at',
-            'created_by',
-            'updated_at',
-            'updated_by',
+            [
+                'attribute' => 'description',
+                'value' => $model->description,
+                'format' => 'raw'
+            ],
+            [
+                'attribute' => 'overview',
+                'value' => $model->overview,
+                'format' => 'raw'
+            ],
+            [
+                'attribute' => 'category',
+                'value' => function ($data) {
+                    $category = ProductCategory::find()->select(['id', 'name'])->where(['status' => 1])->all();
+                    $arrays = ArrayHelper::toArray($category, [
+                        'backend\models\ProductCategory', 'id'
+                    ]);
+                    $categories = array_combine(ArrayHelper::getColumn($arrays, 'id'), ArrayHelper::getColumn($arrays, 'name'));
+                    return $categories[$data->category];
+                },
+                'filter' => $categories
+            ],
         ],
     ]) ?>
 

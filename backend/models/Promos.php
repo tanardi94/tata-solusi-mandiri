@@ -35,7 +35,7 @@ class Promos extends \frontend\models\CustomActiveRecord
     public function rules()
     {
         return [
-            [['title', 'description', 'created_at', 'updated_at'], 'required'],
+            [['title', 'description'], 'required'],
             [['description'], 'string'],
             [['start_date', 'end_date', 'created_at', 'updated_at'], 'safe'],
             [['use_alert', 'status', 'created_by', 'updated_by'], 'integer'],
@@ -50,10 +50,10 @@ class Promos extends \frontend\models\CustomActiveRecord
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
-            'description' => 'Description',
-            'start_date' => 'Start Date',
-            'end_date' => 'End Date',
+            'title' => 'Judul',
+            'description' => 'Deskripsi',
+            'start_date' => 'Tanggal Mulai',
+            'end_date' => 'Tanggal Selesai',
             'use_alert' => 'Use Alert',
             'status' => 'Status',
             'created_at' => 'Created At',

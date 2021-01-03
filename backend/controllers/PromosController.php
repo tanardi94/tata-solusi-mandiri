@@ -66,7 +66,10 @@ class PromosController extends Controller
     {
         $model = new Promos();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->start_date = date("Y-m-d", strtotime($model->start_date));
+            $model->end_date = date("Y-m-d", strtotime($model->end_date));
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -86,7 +89,10 @@ class PromosController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->start_date = date("Y-m-d", strtotime($model->start_date));
+            $model->end_date = date("Y-m-d", strtotime($model->end_date));
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         }
 

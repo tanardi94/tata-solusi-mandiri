@@ -52,10 +52,10 @@ class Product extends \frontend\models\CustomActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'description' => 'Description',
+            'name' => 'Nama',
+            'description' => 'Deskripsi',
             'overview' => 'Overview',
-            'category' => 'Category',
+            'category' => 'Kategori',
             'status' => 'Status',
             'created_at' => 'Created At',
             'created_by' => 'Created By',

@@ -48,8 +48,8 @@ class ProductCategory extends \frontend\models\CustomActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'used_by' => 'Used By',
+            'name' => 'Nama',
+            'used_by' => 'Digunakan Oleh',
             'status' => 'Status',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
